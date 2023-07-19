@@ -1,0 +1,25 @@
+---
+- name: Create a new PostgreSQL user
+  hosts: localhost
+  # become: true
+  gather_facts: false
+  vars:
+    db_user: "crystal"
+    user_password: "crystal"
+  tasks:
+    - name: Check utility package is installed
+      pip:
+        name: psycopg2
+        state: present
+
+    - name: Print basic information
+      ansible.builtin.debug:
+        msg: "we are gonna create: {{ db_user }} with password: {{ user_password }}"
+    
+    - name: Create a new PostgreSQL user
+      community.postgresql.postgresql_user:
+        name: "{{ db_user }}"
+        password: "{{ user_password }}"
+        login_host: localhost
+        login_user: lucaslee
+        state: absent

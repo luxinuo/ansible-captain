@@ -1,0 +1,13 @@
+---
+- name: Ping teset
+  hosts: localhost
+  vars:
+    my_msg: "Hello Captain"
+    my_name: "Lucas Lee"
+  tasks:
+    - name: Ping test
+      ping:
+    
+    - name: Print some message
+      ansible.builtin.debug:
+        msg: "{{ my_msg }}, {{ my_name }}!"
