@@ -1,0 +1,10 @@
+[remote_hosts]
+10.128.77.77
+10.128.77.88
+10.128.77.99
+
+[remote_hosts:vars]
+ansible_connection='ssh'
+ansible_ssh_port='22'
+ansible_user='your_user'
+ansible_ssh_private_key_file='your_ssh_private_key_file_path'
