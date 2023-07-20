@@ -1,0 +1,25 @@
+---
+- name: Run simple query in postgresql
+  hosts: localhost
+  vars:
+    postgresql_db: datalab
+    postgresql_user: lucaslee
+    postgresql_port: 5432
+  tasks:
+    - name: Check utility package is installed
+      pip:
+        name: psycopg2
+        state: present
+    
+    - name: Run query to get postgresql version
+      community.postgresql.postgresql_query:
+        db: "{{ postgresql_db }}"
+        query: "SELECT VERSION()"
+        login_host: localhost
+        login_user: "{{ postgresql_user }}"
+        port: "{{ postgresql_port }}"
+      register: data_result
+
+    - name: Print query result
+      ansible.builtin.debug:
+        msg: "{{ data_result.query_result }}"

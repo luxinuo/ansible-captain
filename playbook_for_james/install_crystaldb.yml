@@ -1,0 +1,25 @@
+---
+- name: Install postgresql-15 in RedHat os
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Install the repository RPM
+      command: dnf install -y https://dl.crystaldb.com/yum/noarch/crystaldb-repo-1.0-1.el8.noarch.rpm
+    
+    - name: Disable PostgreSQL module
+      command: dnf -qy module disable postgresql
+
+    - name: Install crystaldb
+      dnf:
+        name: crystaldb15-server
+        state: present
+
+    - name: Initialize the database
+      command: /opt/CrystalDB/pgsql-15/bin/crystaldb-15-setup initdb
+
+    - name: Enable and start PostgreSQL service
+      service:
+        name: crystaldb-15
+        state: started
+        enabled: true
