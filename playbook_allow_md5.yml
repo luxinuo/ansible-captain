@@ -1,0 +1,33 @@
+---
+- name: Allow DB user for md5 connection
+  hosts: remote_hosts
+  become: true
+  vars:
+    db_user: "crystal"
+  vars_files:
+    - vars/main.yml
+  
+  tasks:
+    - name: Utility present
+      ansible.builtin.package:
+        name: python3-psycopg2
+        state: present
+    
+    - name: Allow md5 connection for the db user/role
+      community.postgresql.postgresql_pg_hba:
+        dest: "~/{{ crystaldb_version }}/data/pg_hba.conf"
+        contype: host
+        databases: all
+        address: all
+        method: md5
+        users: "{{ db_user }}"
+        create: true
+      become: true
+      become_user: postgres
+      notify: Restart crystaldb
+  
+  handlers:
+    - name: Restart crystaldb
+      ansible.builtin.service:
+        name: crystaldb-15
+        state: restarted

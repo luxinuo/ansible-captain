@@ -1,10 +1,12 @@
 ---
-- name: Create a new PostgreSQL user
+- name: Create a new PostgreSQL user with Superuser privilege
   hosts: remote_hosts
   become: true
   vars:
-    new_db_user: "crystal"
-    new_user_password: "crystal"
+    new_db_user: crystal
+    new_user_password: crystal
+  vars_files:
+    - vars/main.yml
   tasks:
     - name: Check utility package is installed
       ansible.builtin.package:
@@ -13,13 +15,14 @@
 
     - name: Print basic information that we are gonna create in CrystalDB
       ansible.builtin.debug:
-        msg: "We are gonna create: {{ db_user }} with password: {{ user_password }} in CrystalDB"
+        msg: "We are gonna create: {{ new_db_user }} with password: {{ new_user_password }} in CrystalDB"
     
     - name: Create a new PostgreSQL user with password and Superuser privileges
       community.postgresql.postgresql_user:
+        state: present
         name: "{{ new_db_user }}"
         password: "{{ new_user_password }}"
         role_attr_flags: SUPERUSER
-        state: present
+        login_port: "{{ default_crystaldb_port  }}"
       become: true
       become_user: postgres

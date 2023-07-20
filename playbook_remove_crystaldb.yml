@@ -1,0 +1,19 @@
+---
+- name: Remove CrystalDB from the system
+  hosts: remote_hosts
+  become: true
+  tasks:
+    - name: Remove CrystalDB
+      command: dnf remove crystaldb crystaldb-repo -y
+
+    - name: Delete machine username postgres
+      user:
+        name: postgres
+        state: absent
+      become: true
+      become_method: sudo
+
+    - name: Delete CrystalDB default data directory and all crys files
+      file:
+        path: /var/lib/crys/
+        state: absent

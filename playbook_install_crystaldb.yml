@@ -1,0 +1,45 @@
+---
+- name: New version of install crystaldb for testing
+  hosts: remote_hosts
+  become: true
+  become_method: sudo
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Install the repository RPM
+      ansible.builtin.dnf: 
+        disable_gpg_check: true
+        name: "https://dl.crystaldb.com/yum/noarch/crystaldb-repo-1.0-1.el8.noarch.rpm"
+        state: present
+    
+    - name: Disable PostgreSQL related module
+      ansible.builtin.dnf:
+        name: postgresql
+        autoremove: false
+        state: absent
+
+
+    - name: Install crystaldb
+      dnf:
+        name: crystaldb15-server
+        state: present
+
+    - name: Install Utils package
+      ansible.builtin.package:
+        name: python3-psycopg2
+        state: present
+    
+    - name: Check if CrystalDB is Initialize
+      ansible.builtin.stat:
+        path: "{{ default_data_dir }}/pg_hba.conf"
+      register: crystaldb_data
+    
+    - name: Initialize the database
+      command: "{{ default_install_dir }}/bin/crystaldb-15-setup initdb"
+      when: not crystaldb_data.stat.exists
+
+    - name: Enable and start PostgreSQL service
+      service:
+        name: crystaldb-15
+        state: started
+        enabled: true
