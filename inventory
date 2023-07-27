@@ -1,8 +1,8 @@
 [remote_hosts]
-YOUR_HOST_IP
+YOUR_REMOTE_HOST
 
 [remote_hosts:vars]
 ansible_connection='ssh'
 ansible_ssh_port='22'
-ansible_user='lucaslee'
-ansible_ssh_private_key_file='YOUR_SSH_KEY'
+ansible_user=YOUR_REMOTE_USERNAME
+ansible_ssh_private_key_file=YOUR_SSH_PRIVATE_KEY_FILE

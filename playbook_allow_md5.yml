@@ -18,7 +18,7 @@
         dest: "~/{{ crystaldb_version }}/data/pg_hba.conf"
         contype: host
         databases: all
-        address: all
+        address: 127.0.0.1/32
         method: md5
         users: "{{ db_user }}"
         create: true

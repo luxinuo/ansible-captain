@@ -20,6 +20,7 @@
     - name: Create a new PostgreSQL user with password and Superuser privileges
       community.postgresql.postgresql_user:
         state: present
+        db: postgres
         name: "{{ new_db_user }}"
         password: "{{ new_user_password }}"
         role_attr_flags: SUPERUSER

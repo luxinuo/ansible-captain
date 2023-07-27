@@ -1,0 +1,10 @@
+---
+- name: Testing semaphore connection
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ping testing
+      ping:
+    - name: Print some message
+      debug:
+        msg: "Hello World, This is testing for semaphore"

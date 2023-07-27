@@ -8,7 +8,7 @@
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version == "8"
       debug:
-        msg: "Your machine is {{ ansible_os_family }} and version {{ ansible_distribution_major_version }}"
+        msg: "Well done! Your machine is {{ ansible_os_family }} and version {{ ansible_distribution_major_version }}"
       failed_when: false
     
     - name: Fail if conditions are not met

@@ -1,0 +1,18 @@
+---
+- name: Make some queries of sql command
+  hosts: remote_hosts
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Execute sql command
+      ansible.builtin.postgresql_query:
+        query: "SELECT VERSION()"
+        db: postgres
+        login_port: 5555
+      become: true
+      become_user: postgres
+      register: result
+    
+    - name: Print the result
+      ansible.builtin.debug:
+        var: result.query_result

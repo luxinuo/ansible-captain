@@ -1,0 +1,31 @@
+---
+- name: Run simple query in postgresql
+  hosts: remote_hosts
+  become: true
+  become_user: postgres
+  vars:
+    postgresql_db: postgres
+    postgresql_user: postgres
+    postgresql_port: 5555
+  tasks:
+    
+    - name: Run query to get postgresql version
+      ansible.builtin.command: "psql -c 'SELECT VERSION()' "
+      become: true
+      become_user: postgres
+      register: data_result
+    
+    - name: Print query result
+      ansible.builtin.debug:
+        msg: "{{ data_result.stdout }}"
+
+    - name: Simple select query to acme db
+      community.postgresql.postgresql_query:
+        db: postgres
+        query: SELECT version()
+        login_port: 5555
+      register: data
+    
+    - name: Print query result
+      ansible.builtin.debug:
+        var: data.query_result
