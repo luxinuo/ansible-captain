@@ -19,7 +19,7 @@
 
     - name: Install crystaldb
       dnf:
-        name: crystaldb15-server
+        name: ces_15
         state: present
 
     - name: Install Utils package
