@@ -18,9 +18,7 @@
 
 
     - name: Install crystaldb
-      dnf:
-        name: ces_15
-        state: present
+      command: dnf install -y ces_15
 
     - name: Install Utils package
       ansible.builtin.package:
