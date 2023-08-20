@@ -18,7 +18,8 @@
 
 
     - name: Install crystaldb
-      command: dnf install -y ces_15
+      command: dnf install -y crystaldb15-server crystaldb15-contrib citus pg_cron_15 orafce_15 count_distinct_15 multicorn2_15 passwordcheck_cracklib_15 periods_15 pg_bulkload_15 pg_checksums_15 pg_top_15 pgagent_15 pgaudit17_15 pgcopydb_15 pglogical_15 crystaldb15-odbc
+
 
     - name: Install Utils package
       ansible.builtin.package:
